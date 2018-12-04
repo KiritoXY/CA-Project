@@ -151,21 +151,22 @@ public class CAProject {
     //look into this function
     public int [][] newdata(int arr[][],int percent)
     {
-        int temp_percent=0;int newarr[][];
-        for(int i=1;i<arr[0].length;i++)
+        int temp_percent=0;int newarr[][],math=0,ogarraylen=arr[0].length;
+        for(int i=1;i<ogarraylen;i++)
         {
-            temp_percent=counting(arr,i);
+            temp_percent=counting(arr,i-math);
             if(temp_percent < percent)
             {
                 newarr=new int [arr.length][((arr[0].length)-1)];
-                arr=copy(arr,newarr,i+1,arr.length,arr[0].length);
+                arr=copy(arr,newarr,i-math,arr.length,arr[0].length);
+                math++;
             } 
         }
         return arr;
     }
     public static void main(String[] args) throws FileNotFoundException 
     {
-        File file = new File("C:\\Users\\k163834\\Downloads\\CA Project\\src\\ca\\project\\test.txt"); int arr[][];
+        File file = new File("D:\\University\\Semester 5\\Projects\\CA\\Chess.txt"); int arr[][];
         CAProject obj= new CAProject();int percent=0;
         Scanner scan= new Scanner(System.in);
         System.out.println("Input Percentage to create new data");
