@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package ca.project;
+import java.io.BufferedWriter;
 import java.io.File; 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner; 
 /**
  *
@@ -49,7 +52,7 @@ public class CAProject {
             arr[row][i]=i;
         }
         row++;
-        while(sc.hasNextInt())
+        while (sc.hasNextInt())
         {
             temp=sc.nextInt();
             arr[row][temp]=1;
@@ -164,9 +167,64 @@ public class CAProject {
         }
         return arr;
     }
-    public static void main(String[] args) throws FileNotFoundException 
+    public void outputnewdata(int arr[][]) throws IOException
     {
-        File file = new File("D:\\University\\Semester 5\\Projects\\CA\\Chess.txt"); int arr[][];
+        BufferedWriter out = new BufferedWriter(new FileWriter("newdata.txt"));String zero="0";
+        for(int i=1;i<arr.length;i++)
+        {
+            for(int j=1;j<arr[0].length;j++)
+            {
+                if(arr[i][j] == 1)
+                {
+                    int data=arr[0][j];String strdata=Integer.toString(data);
+                    out.write(strdata+' ');
+                }
+                else
+                {
+                    out.write(zero+' ');
+                }
+            }
+            out.newLine();
+        }
+        out.close();
+    }
+    public int [][] forsortingarray(int col) throws FileNotFoundException
+    {
+        File file = new File("newdata.txt");int arr[][],start=0,index=0,indexarr=0,intx;String temp,ints;char sub;
+        int num_line=counting(file);
+        arr = new int [num_line][col];
+        Scanner sc = new Scanner(file);
+        for(int i=0;i<arr.length;i++)
+        {
+            temp=sc.nextLine();
+            while(true)
+            {
+                sub=temp.charAt(index);
+                if(sub == ' ')
+                {
+                    ints=temp.substring(start, index);intx=Integer.parseInt(ints);
+                    if(intx  != 0)
+                    {
+                        arr[i][indexarr]=intx;
+                        indexarr++;
+                    }
+                    start=index+1;
+                }    
+                index++;
+                if(index == (temp.length())-1) 
+                {
+                    ints=temp.substring(start, index);intx=Integer.parseInt(ints);
+                    arr[i][indexarr]=intx;
+                    indexarr=0;index=0;
+                    start=0;break;
+                }
+            }
+        }
+        return arr;
+    }
+    public static void main(String[] args) throws FileNotFoundException, IOException 
+    {
+        File file = new File("D:\\University\\Semester 5\\Projects\\CA\\test.txt"); int arr[][],newdata[][];
         CAProject obj= new CAProject();int percent=0;
         Scanner scan= new Scanner(System.in);
         System.out.println("Input Percentage to create new data");
@@ -178,5 +236,7 @@ public class CAProject {
         arr=obj.fillarray(arr,file,column,max_num);
         arr=obj.smallerarray(arr,max_num);
         arr=obj.newdata(arr, percent);
+        obj.outputnewdata(arr);
+        newdata=obj.forsortingarray((arr[0].length)-1);
     }
 }
