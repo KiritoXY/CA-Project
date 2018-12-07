@@ -222,9 +222,45 @@ public class CAProject {
         }
         return arr;
     }
+    public int [][] exchangerows(int newdata[][],int x1)
+    {
+        int temp=0;
+        for(int i=0;i<newdata[0].length;i++)
+        {
+            temp=newdata[x1][i];
+            newdata[x1][i]=newdata[x1+1][i];
+            newdata[x1+1][i]=temp;
+        }
+        return newdata;
+    }
+    public int [][] sortingalgo(int newdata[][])
+    {
+        for(int i=0;i<((newdata.length)-1);i++)
+        {
+           if(newdata[i][0] > newdata[i+1][0])
+           {
+               newdata=exchangerows(newdata,i);
+           }
+        }    
+        return newdata;
+    }
+    public void debug(int newdata[][])
+    {
+        String temp;
+        for(int i=0;i<newdata.length;i++)
+        {
+            for(int j=0;j<newdata[0].length;j++)
+            {
+                temp=Integer.toString(newdata[i][j]);
+                System.out.print(temp+' ');
+            }
+            System.out.printf("\n");
+        }
+        System.out.printf("\n\n\n\n");
+    }
     public static void main(String[] args) throws FileNotFoundException, IOException 
     {
-        File file = new File("D:\\University\\Semester 5\\Projects\\CA\\test.txt"); int arr[][],newdata[][];
+        File file = new File("D:\\Users\\k163834\\Downloads\\CA-Project-master\\test.txt"); int arr[][],newdata[][];
         CAProject obj= new CAProject();int percent=0;
         Scanner scan= new Scanner(System.in);
         System.out.println("Input Percentage to create new data");
@@ -238,5 +274,9 @@ public class CAProject {
         arr=obj.newdata(arr, percent);
         obj.outputnewdata(arr);
         newdata=obj.forsortingarray((arr[0].length)-1);
+        obj.debug(newdata);
+        arr=null;
+        newdata=obj.sortingalgo(newdata);
+        obj.debug(newdata);
     }
 }
